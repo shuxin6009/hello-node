@@ -9,12 +9,12 @@ var jade = require("jade");
 
 var app = express();
 
+
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', function(req, res) {
      console.info("我收到了一个消息...");
     res.send('hello world');
 });
-
 
 var server = app.listen(8080, function () {
     var host = server.address().address
