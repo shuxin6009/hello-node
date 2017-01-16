@@ -40,140 +40,25 @@ html(lang='zh-CN', style='font-size: 204.375px;')
         form#myform(method='post', action='pay')
           input#msg(size='50', type='hidden', name='msg', value='')
           .form
-            select#yxq(name='yxq')
+            select#yxq(name='gameDist')
               option(value='') 游戏区
               option(value='1') 安卓(微信)
               option(value='2') 安卓(QQ)
               option(value='3') 苹果(微信)
               option(value='4') 苹果(QQ)
-            select#fwq(name='fwq')
+
+            select#fwq(name='serverId')
               option(value='') 服务器
-              option(value='001') 001服
-              option(value='002') 002服
+              //option(value='001') 001服
+              - var i = 1;
+                while i<125
+                  option(value='00')= "00"+(i++)+"服"
+
+             // option(value='002') 002服
               option(value='003') 003服
               option(value='004') 004服
-              option(value='005') 005服
-              option(value='006') 006服
-              option(value='007') 007服
-              option(value='008') 008服
-              option(value='009') 009服
-              option(value='010') 010服
-              option(value='011') 011服
-              option(value='012') 012服
-              option(value='013') 013服
-              option(value='014') 014服
-              option(value='015') 015服
-              option(value='016') 016服
-              option(value='017') 017服
-              option(value='018') 018服
-              option(value='019') 019服
-              option(value='020') 020服
-              option(value='021') 021服
-              option(value='022') 022服
-              option(value='023') 023服
-              option(value='024') 024服
-              option(value='025') 025服
-              option(value='026') 026服
-              option(value='027') 027服
-              option(value='028') 028服
-              option(value='029') 029服
-              option(value='030') 030服
-              option(value='031') 031服
-              option(value='032') 032服
-              option(value='033') 033服
-              option(value='034') 034服
-              option(value='035') 035服
-              option(value='036') 036服
-              option(value='037') 037服
-              option(value='038') 038服
-              option(value='039') 039服
-              option(value='040') 040服
-              option(value='041') 041服
-              option(value='042') 042服
-              option(value='043') 043服
-              option(value='044') 044服
-              option(value='045') 045服
-              option(value='046') 046服
-              option(value='047') 047服
-              option(value='048') 048服
-              option(value='049') 049服
-              option(value='050') 050服
-              option(value='051') 051服
-              option(value='052') 052服
-              option(value='053') 053服
-              option(value='054') 054服
-              option(value='055') 055服
-              option(value='056') 056服
-              option(value='057') 057服
-              option(value='058') 058服
-              option(value='059') 059服
-              option(value='060') 060服
-              option(value='061') 061服
-              option(value='062') 062服
-              option(value='063') 063服
-              option(value='064') 064服
-              option(value='065') 065服
-              option(value='066') 066服
-              option(value='067') 067服
-              option(value='068') 068服
-              option(value='069') 069服
-              option(value='070') 070服
-              option(value='071') 071服
-              option(value='072') 072服
-              option(value='073') 073服
-              option(value='074') 074服
-              option(value='075') 075服
-              option(value='076') 076服
-              option(value='077') 077服
-              option(value='078') 078服
-              option(value='079') 079服
-              option(value='080') 080服
-              option(value='081') 081服
-              option(value='082') 082服
-              option(value='083') 083服
-              option(value='084') 084服
-              option(value='085') 085服
-              option(value='086') 086服
-              option(value='087') 087服
-              option(value='088') 088服
-              option(value='089') 089服
-              option(value='090') 090服
-              option(value='091') 091服
-              option(value='092') 092服
-              option(value='093') 093服
-              option(value='094') 094服
-              option(value='095') 095服
-              option(value='096') 096服
-              option(value='097') 097服
-              option(value='098') 098服
-              option(value='099') 099服
-              option(value='100') 100服
-              option(value='101') 101服
-              option(value='102') 102服
-              option(value='103') 103服
-              option(value='104') 104服
-              option(value='105') 105服
-              option(value='106') 106服
-              option(value='107') 107服
-              option(value='108') 108服
-              option(value='109') 109服
-              option(value='110') 110服
-              option(value='111') 111服
-              option(value='112') 112服
-              option(value='113') 113服
-              option(value='114') 114服
-              option(value='115') 115服
-              option(value='116') 116服
-              option(value='117') 117服
-              option(value='118') 118服
-              option(value='119') 119服
-              option(value='120') 120服
-              option(value='121') 121服
-              option(value='122') 122服
-              option(value='123') 123服
-              option(value='124') 124服
-              option(value='125') 125服
-            select#amts(name='amts')
+
+            select#amts(name='gift')
               option(value='') 充值礼包
               option(value='100') 体验100元礼包
               option(value='200') 超值200元礼包
@@ -183,13 +68,13 @@ html(lang='zh-CN', style='font-size: 204.375px;')
             br
             div(style='margin-top:0.24rem;')
               | 请输入角色名：
-              input#jsm(type='text', maxlength='12', name='jsm', placeholder='')
+              input#jsm(type='text', maxlength='12', name='roleName', placeholder='')
           .put.c
             a#confirm.sech.sp(href='javascript:void(0)') 确认订单
             #number(style='margin-top:0.42rem;text-align: center;')
               | 已累计为
               b.red
-              | 位玩家成功充值
+              | #{totalRandomNum} 位玩家成功充值
       section.section2
         h2.hide 回馈说明
         h3.sml_tit1.c

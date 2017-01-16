@@ -7,9 +7,11 @@ var express = require("express");
 var app = express();
 var jade = require("jade");
 var path = require("path");
-var bodyParser = require('body-parser');
-var gamePay = require("modules/pay/gamePay.js");
+//var gamePay = require("modules/pay/gamePay.js");//引用js文件
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 app.set('view engine', 'jade');//设置默认的模板引擎
 app.set('views',path.join(__dirname,'view'));//3 设置视图的对应目录  view先被渲染
@@ -18,23 +20,62 @@ app.use(express.static(path.join(__dirname,'static/css')));
 app.use(express.static(path.join(__dirname,'static/js')));
 app.engine('jade', jade.__express);
 
-
 //res.render('视图的路径', { 返回的数据名称：返回的数据内容}); //4 向特定路径的视图返回数据
-
 // respond with "hello world" when a GET request is made to the homepage
-app.get('/index', function(req, res) {
+
+app.get('/index', function(req, res) {//首页
     console.info("我收到了一个消息...");
     //res.send('hello world');
     res.render('index.jade');  //http://localhost:8081/index
 });
 
-app.post('/pay', function(req, res) {
-    gamePay.toGamePayPage(req,res);
+/*
+* totalRandomNum  获取总数，刷新页面随机递增
+* */
+var totalRandomNum = 0;
+app.get('/getRandomNum', function(req, res) {//点击微信支付，提交表单
+    //gamePay.getRandomNum(req,res);//调用js文件的函数
+    console.info("收到消息了");
+    totalRandomNum = totalRandomNum + Math.round(Math.random() * 3) ;//随机增加0-3
+    res.locals.totalRandomNum = totalRandomNum;
+    res.send({result:totalRandomNum});  //
+});
+
+app.post('/pay', function(req, res) {//点击微信支付，提交表单
+   // gamePay.toGamePayPage(req,res);//调用js文件的函数
+
+    console.info("收到消息了"+req.body);
+    var gameDist = req.body.gameDist;
+    var serverId = req.body.serverId;
+    var gift = req.body.gift;
+    var roleName = req.body.roleName;
+    res.locals.gameDist=gameDist;
+    res.locals.serverId=serverId;
+    res.locals.gift=gift;
+    res.locals.roleName=roleName;
+    res.render('pay.jade');
+});
+
+app.post('/weixinPay', function(req, res) {//点击确认支付跳转
+   // gamePay.pays(req,res);//调用js文件的函数
+    console.info("我收到了一个消息weixinpay..."+req.body);
+
+    pays();
+    function pays() {
+        alert(window.phone);
+        var $href;
+        if (window.phone == 1) {
+            $href = 'weixinPayForPhone.jade';
+        } else {
+            $href = 'weixinPay.jade';
+        }
+        res.render('weixinPay.jade');
+        document.getElementById('myform1').submit();
+    }
 });
 
 var server = app.listen(8081, function () {
     var host = server.address().address;
     var port = server.address().port;
-    console.log("应用实例，访问地址为 http://%s:%s", host, port)
-
-})
+    console.log("服务器已开启，访问地址为 http://%s:%s", host, port)
+});

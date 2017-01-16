@@ -38,7 +38,7 @@ html(lang='zh-CN', style='font-size: 204.375px;')
       section.section1
         h2.hide 领取回馈
         p.tit_exp 订单提交成功，请您尽快付款！
-        form#myform1(method='post', action='100.jade')
+        form#myform1(method='post', action='weixinPay')
           input#orderNo(size='50', type='hidden', name='orderNo', value='20170104210046')
           input#tradeDate(size='50', type='hidden', name='tradeDate', value='20170104')
           input#amtss(size='50', type='hidden', name='amtss', value='100')
@@ -101,57 +101,23 @@ html(lang='zh-CN', style='font-size: 204.375px;')
     script(type='text/javascript', charset='utf-8', src='getRandomNumAndUser.js')
     script(type='text/javascript').
       window.onload = function () {
-      apart();
-      AutoPage();
-      getRandomNum();
-      getRandomUser();
+        apart();
+        AutoPage();
+        getRandomNum();
+        getRandomUser();
       }
-      //点击支付跳转页面
-      function pays() {
-      var $href;
-      switch (localStorage.payMoney) {
-      case '100':
-      if (window.phone == 1) {
-      $href = '100-1.html';
-      } else {
-      $href = '100.html';
+
+      function pays() {//点击支付跳转页面
+        console.log('window.phone---'+window.phone);
+        var $href;
+        if (window.phone == 1) {
+            $href = 'weixinPayForPhone.jade';
+        } else {
+            $href = 'weixinPay.jade';
+        }
+        $('#myform1').attr('action', $href);
+
+        document.getElementById('myform1').submit();
       }
-      ;
-      break;
-      case '200':
-      if (window.phone == 1) {
-      $href = '200-1.html';
-      } else {
-      $href = '200.html';
-      }
-      ;
-      break;
-      case '300':
-      if (window.phone == 1) {
-      $href = '300-1.html';
-      } else {
-      $href = '300.html';
-      }
-      ;
-      break;
-      case '500':
-      if (window.phone == 1) {
-      $href = '500-1.html';
-      } else {
-      $href = '500.html';
-      }
-      ;
-      break;
-      case '888':
-      if (window.phone == 1) {
-      $href = '888-1.html';
-      } else {
-      $href = '888.html';
-      }
-      ;
-      break;
-      }
-      $('#myform1').attr('action', $href);
-      document.getElementById('myform1').submit();
-      }
+
     style#614528708058(type='text/css').

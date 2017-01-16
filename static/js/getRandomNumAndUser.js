@@ -52,9 +52,20 @@ function hidePopOk(e) {
     PopName = null;
 }
 
-
 function getRandomNum() {//获取随机数
     $.ajax({
+        type : "get",
+        url : "../../getRandomNum",
+        dataType : "json",
+        success : function(json){
+            console.log(json);
+            $('#number b').text(json["result"]);
+        },
+        error:function(){
+            alert('failed');
+        }
+    });
+    /*$.ajax({//跨域获取
         type : "get",
         url : "http://116.255.167.222:8080/anysdk-admin/test/getNum.html",
         dataType : "jsonp",
@@ -66,32 +77,35 @@ function getRandomNum() {//获取随机数
         error:function(){
             alert('fail');
         }
-    });
+    });*/
 }
 
-function apart(){/*判断访问终端*/
+function apart() {/*判断访问终端*/
     var u;
-    var browser = {      /*判断访问终端*/
-        versions:function(){
+    var browser = {
+        /*判断访问终端*/
+        versions: function () {
             u = navigator.userAgent, app = navigator.appVersion;
             return {
                 trident: u.indexOf('Trident') > -1, /*IE内核*/
                 presto: u.indexOf('Presto') > -1, /*opera内核*/
                 webKit: u.indexOf('AppleWebKit') > -1, /*苹果、谷歌内核*/
-                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,/*火狐内核*/
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, /*火狐内核*/
                 mobile: !!u.match(/AppleWebKit.*Mobile.*/i), /*是否为移动终端*/
                 ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/i), /*ios终端*/
                 android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, /*android终端或者uc浏览器*/
-                iPhone: u.indexOf('iPhone') > -1 , /*是否为iPhone或者QQHD浏览器*/
+                iPhone: u.indexOf('iPhone') > -1, /*是否为iPhone或者QQHD浏览器*/
                 iPad: u.indexOf('iPad') > -1, /*是否iPad*/
                 webApp: u.indexOf('Safari') == -1 /*是否web应该程序，没有头部与底部*/
             };
         }(),
-        language:(navigator.browserLanguage || navigator.language).toLowerCase()
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
     };
     console.log(browser);
-    if(u.match(/AppleWebKit.*Mobile.*/i)){
+    if (u.match(/AppleWebKit.*Mobile.*/i)) {
         window.phone = 1;
+    }else{
+        window.phone = 0;
     }
 }
 
@@ -195,13 +209,24 @@ function informNumber() {
             alert('最多输入6个中文字符或12个英文字符!');
             return false;
         }
-
     }else{//如果没有中文字符
         if(length_<4){//少于4个英文
             alert('请输入至少2个中文或4个英文！');
             return false;
         }
     }
+
+    var gameDist = $('select[name=gameDist]');
+    var serverId = $('select[name=serverId]');
+    var gift = $('select[name=gift]');
+    var roleName = $('select[name=roleName]');
+    var param = {
+        gameDist:gameDist,
+        serverId:serverId,
+        gift:gift,
+        roleName:roleName
+    };
+
     //支付不同金额，跳转不同页面
     localStorage.payMoney = $('#amts').val();
     var msgs = document.getElementById('yxq').value + document.getElementById('fwq').value ;
