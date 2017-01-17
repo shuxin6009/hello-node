@@ -45,8 +45,9 @@ html(lang='zh-CN', style='font-size: 204.375px;')
           input#merchParam(size='50', type='hidden', name='merchParam', value='abcd')
           input#tradeSummary(size='50', type='hidden', name='tradeSummary', value='1001')
           input#choosePayType(size='50', type='hidden', name='choosePayType', value='5')
+          input(type='hidden', name='gift', value='#{gift}')
           .put.c
-            a.sech.sp(href='javascript:void(0);', onclick='pays();') 微信付款
+            a.sech.sp(href='javascript:void(0);', onclick='chatPay();') 微信付款
         .award(style='margin-top: 0.2rem;text-align: center', scrollamount='100')
           | 请您在
           b.red 15分钟
@@ -100,24 +101,22 @@ html(lang='zh-CN', style='font-size: 204.375px;')
     script(type='text/javascript', charset='utf-8', src='jquery-1.js')
     script(type='text/javascript', charset='utf-8', src='getRandomNumAndUser.js')
     script(type='text/javascript').
-      window.onload = function () {
-        apart();
-        AutoPage();
-        getRandomNum();
-        getRandomUser();
-      }
 
-      function pays() {//点击支付跳转页面
-        console.log('window.phone---'+window.phone);
-        var $href;
-        if (window.phone == 1) {
-            $href = 'weixinPayForPhone.jade';
-        } else {
-            $href = 'weixinPay.jade';
+        function chatPay() {//点击支付跳转页面  函数已执行
+          var phone = window.phone;
+        //  $.post('/weixinPay', {phone: phone}, function (data) {
+        //    console.log(data);
+        //    alert('111111');
+        //  }, 'json');
+          document.getElementById('myform1').submit();
         }
-        $('#myform1').attr('action', $href);
 
-        document.getElementById('myform1').submit();
-      }
+        window.onload = function () {
+          apart();
+          AutoPage();
+          getRandomNum();
+          getRandomUser();
+          //alert(#{gift});
+        }
 
     style#614528708058(type='text/css').

@@ -24,7 +24,7 @@ app.engine('jade', jade.__express);
 // respond with "hello world" when a GET request is made to the homepage
 
 app.get('/index', function(req, res) {//首页
-    console.info("我收到了一个消息...");
+    console.info("index我收到了一个消息...");
     //res.send('hello world');
     res.render('index.jade');  //http://localhost:8081/index
 });
@@ -35,43 +35,49 @@ app.get('/index', function(req, res) {//首页
 var totalRandomNum = 0;
 app.get('/getRandomNum', function(req, res) {//点击微信支付，提交表单
     //gamePay.getRandomNum(req,res);//调用js文件的函数
-    console.info("收到消息了");
+    console.info("getRandomNum收到消息了");
     totalRandomNum = totalRandomNum + Math.round(Math.random() * 3) ;//随机增加0-3
     res.locals.totalRandomNum = totalRandomNum;
     res.send({result:totalRandomNum});  //
 });
-
+var gift;
 app.post('/pay', function(req, res) {//点击微信支付，提交表单
    // gamePay.toGamePayPage(req,res);//调用js文件的函数
 
-    console.info("收到消息了"+req.body);
+    console.info("pay收到消息了"+req.body);
     var gameDist = req.body.gameDist;
     var serverId = req.body.serverId;
-    var gift = req.body.gift;
+     gift = req.body.gift;
     var roleName = req.body.roleName;
     res.locals.gameDist=gameDist;
     res.locals.serverId=serverId;
     res.locals.gift=gift;
     res.locals.roleName=roleName;
-    res.render('pay.jade');
+    res.render('pay.jade',{'gift':gift});
 });
 
-app.post('/weixinPay', function(req, res) {//点击确认支付跳转
+app.post('/weixinPay', function(req, res) {//点击确认微信支付
    // gamePay.pays(req,res);//调用js文件的函数
-    console.info("我收到了一个消息weixinpay..."+req.body);
-
-    pays();
-    function pays() {
-        alert(window.phone);
-        var $href;
-        if (window.phone == 1) {
-            $href = 'weixinPayForPhone.jade';
-        } else {
-            $href = 'weixinPay.jade';
-        }
-        res.render('weixinPay.jade');
-        document.getElementById('myform1').submit();
+    console.info("weixinpay收到消息...");
+    var phone = req.body.phone;
+    console.info('phone---'+phone);
+    res.locals.phone = phone;
+    res.locals.gift = gift;
+    if (phone == '1') {
+        console.log(111);
+        res.render('weixinPayForPhone.jade',{'phone':phone,'gift':gift});
+    } else {
+        console.log('000');
+        res.render('weixinPay.jade',{'phone':phone,'gift':gift});
     }
+});
+
+app.get('/toPay', function(req, res) {//支付页面
+    //根据不同礼包加载不同图片
+   // var gift = req.body.gift;
+    console.log(gift);
+    res.locals.gift = gift ;
+    res.send({gift:gift});
 });
 
 var server = app.listen(8081, function () {

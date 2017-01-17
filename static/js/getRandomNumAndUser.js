@@ -189,6 +189,7 @@ $('#jsm').on('blur',function () {//输入角色名鼠标聚焦移开
 /*
  * 输入角色名限制 至少输入2个中文字符或4个英文字符；最多6个中文字符或12个英文字符
  */
+window.gift = '';
 function informNumber() {
     var roleName = $('#jsm');
     var val = roleName.val() ;
@@ -216,20 +217,51 @@ function informNumber() {
         }
     }
 
-    var gameDist = $('select[name=gameDist]');
-    var serverId = $('select[name=serverId]');
-    var gift = $('select[name=gift]');
-    var roleName = $('select[name=roleName]');
+    var gameDist = $('select[name=gameDist]').val();
+    var serverId = $('select[name=serverId]').val();
+    gift = $('select[name=gift]').val();
+    var roleName = $('select[name=roleName]').val();
     var param = {
         gameDist:gameDist,
         serverId:serverId,
         gift:gift,
         roleName:roleName
     };
-
+    window.gift = gift;  //大礼包在微信支付页面需要用
     //支付不同金额，跳转不同页面
     localStorage.payMoney = $('#amts').val();
     var msgs = document.getElementById('yxq').value + document.getElementById('fwq').value ;
     document.getElementById('msg').value=msgs;
     document.getElementById('myform').submit();
+}
+
+
+function toPay() {//支付页面 获取不同支付二维码图片
+  /*  var gift = window.gift;
+    console.log('window.gift---' + gift);*/
+
+    $.get('../../toPay', function (data) {
+        console.log(data);
+        //根据不同礼包加载不同图片
+        var gift = data['gift'];
+        var img = '';
+        switch (gift) {
+            case '100':
+                img = 'wx100.png';
+                break;
+            case '200':
+                img = 'wx200.png';
+                break;
+            case '300':
+                img = 'wx300.png';
+                break;
+            case '500':
+                img = 'wx500.png';
+                break;
+            case '888':
+                img = 'wx888.png';
+                break;
+        }
+        $('img#wechat-img-buffer').attr('src', img);
+    }, 'json');
 }
