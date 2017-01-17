@@ -72,14 +72,6 @@ app.post('/weixinPay', function(req, res) {//点击确认微信支付
     }
 });
 
-app.get('/toPay', function(req, res) {//支付页面
-    //根据不同礼包加载不同图片
-   // var gift = req.body.gift;
-    console.log(gift);
-    res.locals.gift = gift ;
-    res.send({gift:gift});
-});
-
 var server = app.listen(8081, function () {
     var host = server.address().address;
     var port = server.address().port;

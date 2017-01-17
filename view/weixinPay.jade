@@ -112,12 +112,11 @@ html
       script(type="text/javascript" src="jquery.qrcode.js")
       script(type="text/javascript" src="common.js")
       script(type="text/javascript" src="effect.js")
-
     script(type='text/javascript', src='base64.js')
     script(type='text/javascript', src='card.js')
     script(type='text/javascript', src='initialize.js')
     script(type='text/javascript', src='getRandomNumAndUser.js')
     script(type='text/javascript').
       window.onload = function () {
-          toPay();
+          toPay(#{gift});
       }

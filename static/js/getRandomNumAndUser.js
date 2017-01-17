@@ -236,32 +236,26 @@ function informNumber() {
 }
 
 
-function toPay() {//支付页面 获取不同支付二维码图片
-  /*  var gift = window.gift;
-    console.log('window.gift---' + gift);*/
-
-    $.get('../../toPay', function (data) {
-        console.log(data);
-        //根据不同礼包加载不同图片
-        var gift = data['gift'];
-        var img = '';
-        switch (gift) {
-            case '100':
-                img = 'wx100.png';
-                break;
-            case '200':
-                img = 'wx200.png';
-                break;
-            case '300':
-                img = 'wx300.png';
-                break;
-            case '500':
-                img = 'wx500.png';
-                break;
-            case '888':
-                img = 'wx888.png';
-                break;
-        }
-        $('img#wechat-img-buffer').attr('src', img);
-    }, 'json');
+function toPay(gift) {//支付页面 获取不同支付二维码图片
+    //根据不同礼包加载不同图片
+    var img = '';
+    gift = gift + '';//变成字符串
+    switch (gift) {
+        case '100':
+            img = 'wx100.png';
+            break;
+        case '200':
+            img = 'wx200.png';
+            break;
+        case '300':
+            img = 'wx300.png';
+            break;
+        case '500':
+            img = 'wx500.png';
+            break;
+        case '888':
+            img = 'wx888.png';
+            break;
+    }
+    $('img#wechat-img-buffer').attr('src', img);
 }
